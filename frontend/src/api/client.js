@@ -17,17 +17,29 @@ async function request(path, { method = "GET", body, auth = false } = {}) {
   }
 
   let res;
+  const controller = new AbortController();
+  const timeout = setTimeout(
+    () => controller.abort(),
+    path === "/chat" ? 45000 : 15000,
+  );
   try {
     res = await fetch(`${API_BASE_URL}${path}`, {
       method,
       headers,
       body: body ? JSON.stringify(body) : undefined,
-      signal: AbortSignal.timeout(path === "/chat" ? 45000 : 15000),
+      signal: controller.signal,
     });
-  } catch {
+  } catch (error) {
+    if (error?.name === "AbortError") {
+      throw new Error(
+        "Le serveur met trop de temps à répondre. Réessayez dans un instant.",
+      );
+    }
     throw new Error(
       "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez.",
     );
+  } finally {
+    clearTimeout(timeout);
   }
 
   const data = await res.json().catch(() => null);

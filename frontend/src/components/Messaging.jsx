@@ -172,13 +172,13 @@ function Thread({ conversation, admin, onCreated, onState }) {
       </header>
       {syncError && (
         <p className="notice" role="status">
-          Synchronisation interrompue. Nouvelle tentative automatique…{" "}
-          {syncError.message}
+          Synchronisation interrompue. Nouvelle tentative automatique…
         </p>
       )}
       <div
         className="message-history"
         ref={list}
+        aria-busy={loading}
         onScroll={() => {
           const el = list.current;
           follow.current =
@@ -262,7 +262,12 @@ function Thread({ conversation, admin, onCreated, onState }) {
         />
         <div>
           <small>{draft.length}/5 000 · Entrée pour une nouvelle ligne</small>
-          <button className="btn" disabled={busy || loading || !draft.trim()}>
+          <button
+            className="btn"
+            type="submit"
+            disabled={busy || loading || !draft.trim()}
+            aria-busy={busy}
+          >
             {busy ? "Envoi…" : "Envoyer"}
           </button>
         </div>
