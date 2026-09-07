@@ -1,6 +1,6 @@
 # AXORA — site vitrine et espace client
 
-Le projet exécutable est composé de `frontend/` (React, Vite) et `axora-backend/` (Laravel, Sanctum, PostgreSQL). `backend/` conserve une copie du code applicatif pour l’ancienne procédure d’installation ; développez dans `axora-backend/`.
+Le projet executable est compose de `frontend/` (React, Vite) et `axora-backend/` (Laravel, Sanctum, PostgreSQL). Le backend canonique est `axora-backend/`.
 
 ## Fonctions disponibles
 
@@ -40,7 +40,7 @@ npm run dev -- --host 127.0.0.1
 
 Ouvrir http://127.0.0.1:5173. Le frontend appelle `/api` via le proxy Vite vers le backend local. `VITE_API_URL` peut définir une autre URL d’API.
 
-En développement rapide, la base SQLite se trouve dans `axora-backend/database/database.sqlite`. PostgreSQL est également pris en charge et constitue le choix recommandé pour un hébergement. Le fichier `compose.postgres.yaml` démarre PostgreSQL 17 en local sur `127.0.0.1:55432`; `php artisan axora:import-sqlite <chemin-vers-la-copie.sqlite>` transfère les données vers une base PostgreSQL vide après migration. Ne lancez jamais cet import sur une base contenant déjà des tables AXORA. Une copie `database.before-portal-*.sqlite` a été réalisée avant l’évolution initiale.
+PostgreSQL est la seule base utilisee par l application. Le fichier `compose.postgres.yaml` demarre PostgreSQL 17 en local sur `127.0.0.1:55432`. La commande `php artisan axora:import-sqlite <chemin-vers-la-copie.sqlite>` est conservee uniquement pour une migration historique ponctuelle vers une base PostgreSQL vide.
 
 ## Donner accès à l’administration
 
@@ -110,7 +110,7 @@ cd axora-backend
 php vendor/phpunit/phpunit/phpunit
 ```
 
-Les tests backend utilisent SQLite **en mémoire**, indépendamment de la base locale. Ils couvrent l’authentification, les permissions, l’isolation entre clients, les audits, les dates, les conflits de confirmation, les réponses de l’équipe, les contenus, le chatbot et les réinitialisations.
+Les tests backend utilisent PostgreSQL, avec la base locale `axora_test` en developpement et un service PostgreSQL isole dans la CI. Ils couvrent l authentification, les permissions, l isolation entre clients, les audits, les dates, les conflits de confirmation, les reponses de l equipe, les contenus, le chatbot et les reinitialisations.
 
 La vérification actuelle sous PHP 8.5 passe sans avertissement de dépréciation : 33 tests backend et 18 tests frontend. Les tests React couvrent les changements de rubrique, les brouillons, les enregistrements en cours et les erreurs de chargement. La compilation de production et les réponses HTTP locales ont également été vérifiées. Les diagnostics PHP sont dirigés vers les journaux à l’entrée HTTP pour préserver les réponses JSON.
 
