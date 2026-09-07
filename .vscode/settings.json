@@ -1,0 +1,9 @@
+{
+  "intelephense.environment.includePaths": [
+    "${workspaceFolder}/axora-backend/vendor"
+  ],
+  "intelephense.files.exclude": [
+    "**/frontend/node_modules/**",
+    "**/axora-backend/storage/**"
+  ]
+}
