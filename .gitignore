@@ -15,4 +15,22 @@
 **/storage/framework/sessions/*
 **/storage/framework/views/*
 
+# IDE et fichiers système
+.DS_Store
+Thumbs.db
+**/.idea/
+*.code-workspace
+*.swp
+
+# Outils de test et de couverture
+**/.phpunit.cache/
+**/coverage/
+**/.vite/
+
+# Journaux et sauvegardes locales
+**/*.log
+*.dump
+*.backup
+*.bak
+
 .env.postgres
